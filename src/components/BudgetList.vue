@@ -5,7 +5,12 @@
         <div class="budget-list__item" v-for="(item, prop) in list" :key="prop">
           <span class="budget-list__comment">{{ item.comment }}</span>
           <span class="budget-list__value">{{ item.value }}</span>
-          <ElButton type="danger" :icon="Delete" plain circle></ElButton>
+          <ElButton
+            type="danger"
+            :icon="Delete"
+            plain circle
+            @click="deleteItem(item.id)"
+          ></ElButton>
         </div>
       </template>
       <template v-else>
@@ -42,6 +47,11 @@ export default {
   computed: {
     isFilled() {
       return Boolean(Object.keys(this.list).length);
+    }
+  },
+  methods: {
+    deleteItem(id) {
+      this.$emit('deleteItem', id);
     }
   }
 }
