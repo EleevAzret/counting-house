@@ -1,22 +1,25 @@
 <template>
   <div id="app">
+    <TotalValue :total="totalBalance"/>
     <BudgetList :list="list"/>
   </div>
 </template>
 
 <script>
-import BudgetList from './components/BudgetList.vue'
+import BudgetList from './components/BudgetList.vue';
+import TotalValue from './components/TotalValue.vue';
 
 export default {
   name: 'app',
   components: {
     BudgetList,
+    TotalValue,
   },
   data: () => ({
     list: {
       1: {
         type: 'INCOME',
-        value: 100,
+        value: 200,
         comment: 'Some comment',
         id: 1,
       },
@@ -28,6 +31,11 @@ export default {
       },
     },
   }),
+  computed: {
+    totalBalance() {
+      return Object.values(this.list).reduce((acc, item) => acc + item.value, 0)
+    }
+  }
 }
 </script>
 
