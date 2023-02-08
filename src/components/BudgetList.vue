@@ -2,16 +2,7 @@
   <div class="budget-list">
     <el-card :header="title" class="box-card">
       <template v-if="isFilled">
-        <div class="budget-list__item" v-for="(item, prop) in list" :key="prop">
-          <span class="budget-list__comment">{{ item.comment }}</span>
-          <span class="budget-list__value">{{ item.value }}</span>
-          <ElButton
-            type="danger"
-            :icon="Delete"
-            plain circle
-            @click="deleteItem(item.id)"
-          ></ElButton>
-        </div>
+        <BudgetListItem :list="list" @deleteItem="deleteItem"/>
       </template>
       <template v-else>
         <ElAlert
@@ -26,12 +17,13 @@
   </div>
 </template>
 
-<script setup>
-  import { Delete } from '@element-plus/icons-vue';
-</script>
-
 <script>
+import BudgetListItem from './BudgetListItem.vue';
+
 export default {
+  components: { 
+    BudgetListItem
+  },
   name: 'BudgetList',
   props: {
     list: {
@@ -61,17 +53,5 @@ export default {
 .budget-list {
   max-width: 500px;
   margin: auto;
-}
-
-.budget-list__item {
-  display: flex;
-  align-items: center;
-  padding: 15px 20px;
-}
-
-.budget-list__value {
-  font-weight: bold;
-  margin-left: auto;
-  margin-right: 10px;
 }
 </style>
