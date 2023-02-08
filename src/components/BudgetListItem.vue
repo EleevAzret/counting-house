@@ -1,35 +1,48 @@
 <template>
-  <div class="budget-list__item" v-for="(item, prop) in list" :key="prop">
+  <div 
+    class="budget-list__item"
+    v-for="(item, prop) in list"
+    :key="prop"
+  >
     <span class="budget-list__comment">{{ item.comment }}</span>
-    <span class="budget-list__value">{{ item.value }}</span>
-    <ElButton
-    type="danger"
-    :icon="Delete"
-    plain circle
-    @click="deleteItem(item.id)"
-    ></ElButton>
+    <el-icon>
+      <Top v-if="typeOfCount(item.type) === 'success'"/>
+      <Bottom v-if="typeOfCount(item.type) === 'danger'"/>
+    </el-icon>
+    <span class="budget-list__value" :class="typeOfCount(item.type)">{{ item.value }}</span>
+    <el-button
+      type="danger"
+      :icon="Delete"
+      plain circle
+      @click="deleteItem(item.id)"
+    ></el-button>
   </div>
 </template>
 
 <script setup>
-  import { Delete } from '@element-plus/icons-vue';
+  import { Bottom, Delete } from '@element-plus/icons-vue';
 </script>
 
 <script>
   export default {
-    name: 'BudgetListItem',
+    name: "BudgetListItem",
     props: {
-      list: {
-        type: Object,
-        default: () => ({}),
-      },
+        list: {
+            type: Object,
+            default: () => ({}),
+        },
     },
+    computed: {},
     methods: {
-      deleteItem(id) {
-        this.$emit('deleteItem', id);
-      },
+        deleteItem(id) {
+            this.$emit("deleteItem", id);
+        },
+        typeOfCount(type) {
+            return type === "INCOME" ? "success" : "danger";
+        }
     },
-  }
+    components: { Bottom }
+}
 </script>
 
 <style scoped>
@@ -38,7 +51,13 @@
   align-items: center;
   padding: 15px 20px;
 }
+.danger {
+  color: #F56C6C;
+}
 
+.success {
+  color: #67C23A;
+}
 .budget-list__value {
   font-weight: bold;
   margin-left: auto;
