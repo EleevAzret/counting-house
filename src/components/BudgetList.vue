@@ -1,6 +1,6 @@
 <template>
   <div class="budget-list">
-    <ElCard :header="title" class="box-card">
+    <el-card :header="title" class="box-card">
       <template v-if="isFilled">
         <div class="budget-list__item" v-for="(item, prop) in list" :key="prop">
           <span class="budget-list__comment">{{ item.comment }}</span>
@@ -22,7 +22,7 @@
           :closable="false"
         />
       </template>
-    </ElCard>
+    </el-card>
   </div>
 </template>
 

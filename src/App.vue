@@ -1,19 +1,22 @@
 <template>
   <div id="app">
     <TotalValue :total="totalBalance"/>
-    <BudgetList :list="list" @deleteItem="onDelete"/>
+    <BudgetList :list="list" @deleteItem="onDelete" class="budget-list"/>
+    <CountingList @addCount="addCount"/>
   </div>
 </template>
 
 <script>
 import BudgetList from './components/BudgetList.vue';
 import TotalValue from './components/TotalValue.vue';
+import CountingList from './components/CountingList.vue';
 
 export default {
   name: 'app',
   components: {
     BudgetList,
     TotalValue,
+    CountingList,
   },
   data: () => ({
     list: {
@@ -39,6 +42,14 @@ export default {
   methods: {
     onDelete(id) {
       delete this.list[id];
+    },
+    addCount(data) {
+      const newObj = {
+        ...data,
+        id: String(Math.random())
+      };
+
+      this.list[newObj.id] = newObj;
     }
   }
 }
