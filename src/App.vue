@@ -1,8 +1,12 @@
 <template>
   <div id="app">
+    <div class="header">
+      <img src="logo.png" alt="money" class="logo">
+      <h1>Counting House</h1>
+    </div>
+    <CountingList @addCount="addCount"/>
     <TotalValue :total="totalBalance"/>
     <BudgetList :list="list" @deleteItem="onDelete" class="budget-list"/>
-    <CountingList @addCount="addCount"/>
   </div>
 </template>
 
@@ -66,6 +70,19 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  margin-top: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #5a866f;
+}
+
+.logo {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
 }
 </style>

@@ -1,8 +1,15 @@
 <template>
   <div class="budget-list">
     <el-card :header="title" class="box-card">
+      <div>
+        <el-radio-group @change="onRadioChange" v-model="radio" size="large" ref="radio">
+          <el-radio-button label="Income" />
+          <el-radio-button label="Expenses" />
+          <el-radio-button label="Show All" />
+        </el-radio-group>
+      </div>
       <template v-if="isFilled">
-        <BudgetListItem :list="list" @deleteItem="deleteItem"/>
+        <BudgetListItem :list="list" :typeOfItem="typeOfItem" @deleteItem="deleteItem"/>
       </template>
       <template v-else>
         <ElAlert
@@ -35,16 +42,21 @@ export default {
     title: 'Budget List',
     emptyTitle: 'No income or expensis',
     emptyDescription: 'Create new posts below',
+    radio: 'Show All',
+    typeOfItem: 'SHOW ALL',
   }),
   computed: {
     isFilled() {
       return Boolean(Object.keys(this.list).length);
-    }
+    },
   },
   methods: {
     deleteItem(id) {
       this.$emit('deleteItem', id);
-    }
+    },
+    onRadioChange(e) {
+      this.typeOfItem = String(e).toUpperCase();
+    },
   }
 }
 </script>

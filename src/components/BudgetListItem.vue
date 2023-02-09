@@ -1,7 +1,7 @@
 <template>
   <div 
     class="budget-list__item"
-    v-for="(item, prop) in list"
+    v-for="(item, prop) in sortedList"
     :key="prop"
   >
     <span class="budget-list__comment">{{ item.comment }}</span>
@@ -20,7 +20,7 @@
 </template>
 
 <script setup>
-  import { Bottom, Delete } from '@element-plus/icons-vue';
+  import { Bottom, Top, Delete } from '@element-plus/icons-vue';
 </script>
 
 <script>
@@ -28,18 +28,35 @@
     name: "BudgetListItem",
     props: {
         list: {
-            type: Object,
-            default: () => ({}),
+          type: Object,
+          default: () => ({}),
+        },
+        typeOfItem: {
+          type: String,
+          default: 'SHOW ALL',
         },
     },
-    computed: {},
+    computed: {
+      sortedList() {
+        if(this.typeOfItem === 'SHOW ALL') return this.list
+        return Object.entries(this.list)
+                // eslint-disable-next-line
+                .filter(([id, value]) => {
+                  return value.type === this.typeOfItem;
+                })
+                .reduce((acc, [id, value]) => {
+                  acc[id] = value;
+                  return acc;
+                }, {});
+      }
+    },
     methods: {
         deleteItem(id) {
             this.$emit("deleteItem", id);
         },
         typeOfCount(type) {
             return type === "INCOME" ? "success" : "danger";
-        }
+        },
     },
     components: { Bottom }
 }

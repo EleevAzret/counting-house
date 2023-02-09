@@ -5,7 +5,7 @@
         <el-form-item label="Type" prop="type">
           <el-select v-model="form.type" placeholder="Choose your type">
             <el-option label="Income" value="INCOME"/>
-            <el-option label="Expensis" value="EXPENSIS"/>
+            <el-option label="Expenses" value="EXPENSES"/>
           </el-select>
         </el-form-item>
         <el-form-item label="Value" prop="value">
@@ -53,8 +53,9 @@ export default {
     onSubmit() {
       this.$refs.addCount.validate((valid) => {
         if (valid) {
-          if (this.form.type === 'EXPENSIS') this.form.value = 0 - this.form.value;
+          if (this.form.type === 'EXPENSES') this.form.value = 0 - this.form.value;
           this.$emit('addCount', {...this.form});
+          console.log({...this.form});
           this.$refs.addCount.resetFields();
         }
       })
@@ -72,5 +73,12 @@ export default {
 .form-card__count {
   display: flex;
   justify-content: space-between;
+}
+
+@media screen and (max-width: 500px) {
+  .form-card__count {
+    display: flex;
+    flex-wrap: wrap;
+  }
 }
 </style>
