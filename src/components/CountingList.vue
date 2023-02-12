@@ -32,6 +32,8 @@ import { Plus } from '@element-plus/icons-vue';
 </script>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
   name: "CountingList",
   data: () => ({
@@ -50,12 +52,12 @@ export default {
     }
   }),
   methods: {
+    ...mapActions('countings', ['addNewCount']),
     onSubmit() {
       this.$refs.addCount.validate((valid) => {
         if (valid) {
           if (this.form.type === 'EXPENSES') this.form.value = 0 - this.form.value;
-          this.$emit('addCount', {...this.form});
-          console.log({...this.form});
+          this.addNewCount({...this.form});
           this.$refs.addCount.resetFields();
         }
       })

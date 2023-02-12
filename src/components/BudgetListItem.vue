@@ -14,7 +14,7 @@
       type="danger"
       :icon="Delete"
       plain circle
-      @click="deleteItem(item.id)"
+      @click="deleteCount(item.id)"
     ></el-button>
   </div>
 </template>
@@ -24,22 +24,20 @@
 </script>
 
 <script>
+  import { mapGetters, mapActions } from 'vuex';
+
   export default {
     name: "BudgetListItem",
     props: {
-        list: {
-          type: Object,
-          default: () => ({}),
-        },
-        typeOfItem: {
-          type: String,
-          default: 'SHOW ALL',
-        },
+      typeOfItem: {
+        type: String,
+        default: 'SHOW ALL',
+      },
     },
     computed: {
       sortedList() {
-        if(this.typeOfItem === 'SHOW ALL') return this.list
-        return Object.entries(this.list)
+        if(this.typeOfItem === 'SHOW ALL') return this.getCountings
+        return Object.entries(this.getCountings)
                 // eslint-disable-next-line
                 .filter(([id, value]) => {
                   return value.type === this.typeOfItem;
@@ -48,15 +46,14 @@
                   acc[id] = value;
                   return acc;
                 }, {});
-      }
+      },
+      ...mapGetters('countings', ['getCountings']),
     },
     methods: {
-        deleteItem(id) {
-            this.$emit("deleteItem", id);
-        },
-        typeOfCount(type) {
-            return type === "INCOME" ? "success" : "danger";
-        },
+      ...mapActions('countings', ['deleteCount']),
+      typeOfCount(type) {
+        return type === "INCOME" ? "success" : "danger";
+      },
     },
     components: { Bottom }
 }

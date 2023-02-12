@@ -1,22 +1,19 @@
 <template>
   <div class="total-value">
-    Balance: <span class="total-value__num" :class="chooseTheme">{{ total }}</span> 
+    Balance: <span class="total-value__num" :class="chooseTheme">{{ totalBalance }}</span> 
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   name: 'TotalValue',
-  props: {
-    total: {
-      type: Number,
-      default: 0,
-    }
-  },
   computed: {
     chooseTheme() {
-      return this.total > 0 ? 'success' : this.total < 0 ? 'danger' : 'default';
+      return this.totalBalance > 0 ? 'success' : this.totalBalance < 0 ? 'danger' : 'default';
     },
+    ...mapGetters('countings', ['totalBalance']),
   }
 }
 </script>

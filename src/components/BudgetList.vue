@@ -9,7 +9,7 @@
         </el-radio-group>
       </div>
       <template v-if="isFilled">
-        <BudgetListItem :list="list" :typeOfItem="typeOfItem" @deleteItem="deleteItem"/>
+        <BudgetListItem :typeOfItem="typeOfItem" @deleteItem="deleteItem"/>
       </template>
       <template v-else>
         <ElAlert
@@ -26,18 +26,13 @@
 
 <script>
 import BudgetListItem from './BudgetListItem.vue';
+import { mapGetters } from 'vuex';
 
 export default {
   components: { 
     BudgetListItem
   },
   name: 'BudgetList',
-  props: {
-    list: {
-      type: Object,
-      default: () => ({}),
-    },
-  },
   data: () => ({
     title: 'Budget List',
     emptyTitle: 'No income or expensis',
@@ -47,8 +42,9 @@ export default {
   }),
   computed: {
     isFilled() {
-      return Boolean(Object.keys(this.list).length);
+      return Boolean(Object.keys(this.getCountings).length);
     },
+    ...mapGetters('countings', ['getCountings']),
   },
   methods: {
     deleteItem(id) {

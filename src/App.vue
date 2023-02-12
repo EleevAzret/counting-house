@@ -1,12 +1,12 @@
 <template>
   <div id="app">
     <div class="header">
-      <img src="logo.png" alt="money" class="logo">
+      <img src="./images/logo.png" alt="money" class="logo">
       <h1>Counting House</h1>
     </div>
-    <CountingList @addCount="addCount"/>
-    <TotalValue :total="totalBalance"/>
-    <BudgetList :list="list" @deleteItem="onDelete" class="budget-list"/>
+    <CountingList/>
+    <TotalValue/>
+    <BudgetList class="budget-list"/>
   </div>
 </template>
 
@@ -22,40 +22,6 @@ export default {
     TotalValue,
     CountingList,
   },
-  data: () => ({
-    list: {
-      1: {
-        type: 'INCOME',
-        value: 200,
-        comment: 'Some comment',
-        id: 1,
-      },
-      2: {
-        type: 'EXPENSES',
-        value: -50,
-        comment: 'Some expenses comment',
-        id: 2,
-      },
-    },
-  }),
-  computed: {
-    totalBalance() {
-      return Object.values(this.list).reduce((acc, item) => acc + item.value, 0)
-    }
-  },
-  methods: {
-    onDelete(id) {
-      delete this.list[id];
-    },
-    addCount(data) {
-      const newObj = {
-        ...data,
-        id: String(Math.random())
-      };
-
-      this.list[newObj.id] = newObj;
-    }
-  }
 }
 </script>
 
